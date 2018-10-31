@@ -4,22 +4,22 @@ import com.mercadolibre.kotlin.models.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import com.mercadolibre.kotlin.helpers.simpleHuman
 import com.mercadolibre.kotlin.models.DNA
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import org.springframework.web.reactive.function.BodyInserters.*
 import reactor.core.publisher.toFlux
 import reactor.core.publisher.toMono
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @WebFluxTest
 @Import(HumanRouter::class)
 internal class InsertHandlerTesst {
