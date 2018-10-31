@@ -2,7 +2,7 @@ package com.mercadolibre.kotlin.routers
 
 import com.mercadolibre.kotlin.models.Human
 import com.mercadolibre.kotlin.repositories.HumanRepository
-import com.mercadolibre.kotlin.helpers.sampleHuman
+import com.mercadolibre.kotlin.helpers.simpleHuman
 import com.mercadolibre.kotlin.models.DNA
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,14 +32,14 @@ internal class InsertHandlerTesst {
 
     @Test
     fun `Ensure a POST with a valid JSON will save it`() {
-        given(repository.save(sampleHuman())).willReturn(sampleHuman().toMono())
+        given(repository.save(simpleHuman())).willReturn(simpleHuman().toMono())
         //When
         makeA.post().uri("/humans").contentType(APPLICATION_JSON)
-                .body(fromObject(sampleHuman())).exchange()
+                .body(fromObject(simpleHuman())).exchange()
         //Then
                 .expectStatus().isCreated
                 .expectHeader().exists("location")
-                .expectBody<Human>().isEqualTo(sampleHuman())
+                .expectBody<Human>().isEqualTo(simpleHuman())
 
     }
     @Test
@@ -62,28 +62,28 @@ internal class InsertHandlerTesst {
 
     @Test
     fun `Ensure a GET with a valid ID return a OK with a single human`(){
-        given(repository.findById("sampleId")).willReturn(sampleHuman().toMono())
+        given(repository.findById("sampleId")).willReturn(simpleHuman().toMono())
         //When
         makeA.get().uri("/humans/sampleId").accept(APPLICATION_JSON)
                 //Then
                 .exchange().expectStatus().isOk
-                .expectBodyList(Human::class.java).contains(sampleHuman())
+                .expectBodyList(Human::class.java).contains(simpleHuman())
     }
 
     @Test
     fun `Ensure a GET will return a OK with  a list of humans`() {
-        val humans = listOf(sampleHuman(), sampleHuman()).toFlux()
+        val humans = listOf(simpleHuman(), simpleHuman()).toFlux()
         given(repository.findAll()).willReturn(humans)
         //When
         makeA.get().uri("/humans").accept(APPLICATION_JSON)
         //Then
                 .exchange().expectStatus().isOk
-                .expectBodyList(Human::class.java).contains(sampleHuman())
+                .expectBodyList(Human::class.java).contains(simpleHuman())
     }
 
     @Test
     fun `Ensure a PATCH with a mutant ID will return a MONSTER`(){
-        given(repository.findById("sampleId")).willReturn(sampleHuman().toMono())
+        given(repository.findById("sampleId")).willReturn(simpleHuman().toMono())
         val monsterDNA = fromObject(listOf(DNA("MONSTRO"),DNA("FRANGO"),DNA("BIRRL")))
         makeA.patch().uri("/humans/sampleId").accept(APPLICATION_JSON)
                 .body(monsterDNA)

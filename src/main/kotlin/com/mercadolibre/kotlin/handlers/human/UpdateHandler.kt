@@ -36,7 +36,7 @@ class UpdateHandler(val repository: HumanRepository) {
     }
 
     private fun returnHumanWithUpdatedGenome(it: Mono<Tuple2<MutableList<DNA>, Human>>): Mono<Human> {
-        return it.map { it -> it.t2.mutation(it.t1) }
+        return it.map { it -> it.t2.sufferMutation(it.t1) }
     }
 
     private fun findHumanAndZipWith(m: Mono<MutableList<DNA>>, request: ServerRequest): Mono<Tuple2<MutableList<DNA>, Human>> =

@@ -1,6 +1,6 @@
 package com.mercadolibre.kotlin.routers
 
-import com.mercadolibre.kotlin.handlers.InsertHandler
+import com.mercadolibre.kotlin.handlers.human.InsertHandler
 import com.mercadolibre.kotlin.handlers.human.SearchHandler
 import com.mercadolibre.kotlin.handlers.human.UpdateHandler
 import org.springframework.context.annotation.Bean

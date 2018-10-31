@@ -1,5 +1,6 @@
 package com.mercadolibre.kotlin.handlers.human
 
+import com.mercadolibre.kotlin.helpers.returnNoContent
 import com.mercadolibre.kotlin.helpers.returnResponseForException
 import com.mercadolibre.kotlin.models.Human
 import com.mercadolibre.kotlin.repositories.HumanRepository
@@ -23,9 +24,13 @@ class SearchHandler(val repository: HumanRepository){
 
     fun findHumanById(request: ServerRequest): Mono<ServerResponse> {
         return request.pathVariable("id").toMono()
-                .flatMap { repository.findById(it) }
-//                .defaultIfEmpty( sampleHuman())
-                .flatMap { ServerResponse.ok().body(it.toMono(), Human::class.java) }
+                .let { returnOkWithTheRepositoryIfExist(it) }
+                .switchIfEmpty(returnNoContent())
                 .onErrorResume { returnResponseForException(it) }
     }
+
+    private fun returnOkWithTheRepositoryIfExist(monoId : Mono<String>): Mono<ServerResponse> =
+            monoId.flatMap {
+                ServerResponse.ok().body(repository.findById(it), Human::class.java)
+            }
 }

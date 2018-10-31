@@ -1,4 +1,4 @@
-package com.mercadolibre.kotlin.handlers
+package com.mercadolibre.kotlin.handlers.human
 
 import com.mercadolibre.kotlin.helpers.badRequest
 import com.mercadolibre.kotlin.helpers.returnCreatedHumanResponse
@@ -29,8 +29,8 @@ class InsertHandler(private val repository: HumanRepository) {
                 .flatMap { human: Human -> repository.save(human) }
                 .flatMap(::returnCreatedHumanResponse)
                 .onErrorResume { e ->
-                    badRequest { log.error("Unable to process request, body is: ${request.bodyToMono<Any>()}", e) }
+                    badRequest(e) { log.error("Unable to process request, body is: ${request.bodyToMono<Any>()}") }
                 }
-        //      .onErrorReturn(badRequest().build())
+        //      .onErrorReturn(badRequest().build()) <- Faz um mono do que for retornar
     }
 }
