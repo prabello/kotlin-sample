@@ -32,6 +32,8 @@ fun returnResponseForException(it: Throwable?): Mono<out ServerResponse>? {
     }
 }
 
+fun returnOkWithHuman(it: Human) = ok().body(it.toMono(), Human::class.java)
+
 fun returnNoContent(): Mono<ServerResponse> {
     return noContent().build()
 }

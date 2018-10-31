@@ -1,36 +1,43 @@
 package com.mercadolibre.kotlin.handlers.human
 
-import com.mercadolibre.kotlin.helpers.returnNoContent
-import com.mercadolibre.kotlin.helpers.returnResponseForException
+import com.mercadolibre.kotlin.helpers.returnOkWithHuman
 import com.mercadolibre.kotlin.models.Human
-import com.mercadolibre.kotlin.repositories.HumanRepository
+import com.mercadolibre.kotlin.repositories.Humans
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.*
 import org.springframework.stereotype.Controller
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.ServerResponse.notFound
+import org.springframework.web.reactive.function.server.ServerResponse.*
+import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
 
+private val log = LoggerFactory.getLogger(SearchHandler::class.java)
+
 @Controller
-class SearchHandler(val repository: HumanRepository){
-    fun findAllHumans(request: ServerRequest): Mono<ServerResponse> = ServerResponse.ok().body(repository.findAll(), Human::class.java)
+class SearchHandler(val humans: Humans){
+    fun findAllHumans(request: ServerRequest): Mono<ServerResponse> = ok().body(humans.findAll(), Human::class.java)
 
     fun getPassingParams(request: ServerRequest): Mono<ServerResponse> {
         val id = request.pathVariable("id")
-        val human = repository.findById(id) ?: return notFound().build()
+        val human = humans.findById(id)
 //        val defaultIfEmpty = human.defaultIfEmpty(sampleHuman())
-        return ServerResponse.ok().body(human, Human::class.java)
+        return ok().body(human, Human::class.java)
     }
 
     fun findHumanById(request: ServerRequest): Mono<ServerResponse> {
         return request.pathVariable("id").toMono()
-                .let { returnOkWithTheRepositoryIfExist(it) }
-                .switchIfEmpty(returnNoContent())
-                .onErrorResume { returnResponseForException(it) }
+                .flatMap { findByIdOrThrowNotFound(it) }
+                .flatMap { returnOkWithHuman(it) }
+                .switchIfEmpty(notFound().build())
+//                .onErrorResume { returnResponseForException(it) } // <- Vai cair no else e retornar 500
     }
 
-    private fun returnOkWithTheRepositoryIfExist(monoId : Mono<String>): Mono<ServerResponse> =
-            monoId.flatMap {
-                ServerResponse.ok().body(repository.findById(it), Human::class.java)
-            }
+    private fun findByIdOrThrowNotFound(id: String): Mono<Human>?{
+        @Suppress("USELESS_ELVIS")
+        return humans.findById(id) ?: ResponseStatusException(NOT_FOUND,null).toMono()
+    }
+
 }

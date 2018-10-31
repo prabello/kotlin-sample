@@ -3,7 +3,7 @@ package com.mercadolibre.kotlin.handlers.human
 import com.mercadolibre.kotlin.helpers.returnNoContent
 import com.mercadolibre.kotlin.models.DNA
 import com.mercadolibre.kotlin.models.Human
-import com.mercadolibre.kotlin.repositories.HumanRepository
+import com.mercadolibre.kotlin.repositories.Humans
 import org.springframework.stereotype.Controller
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 import reactor.util.function.Tuple2
 
 @Controller
-class UpdateHandler(val repository: HumanRepository) {
+class UpdateHandler(val humans: Humans) {
 
     fun update(request: ServerRequest): Mono<ServerResponse> = request.bodyToFlux(DNA::class.java)
             .let { makeAList(it) }
@@ -26,21 +26,22 @@ class UpdateHandler(val repository: HumanRepository) {
 //                .reduce { initial: MutableList<DNA>, next: MutableList<DNA> ->
 //                    initial.addAll(next)
 //                    initial
-//                }.zipWith(repository.findById(request.pathVariable("id")))
+//                }.zipWith(humans.findById(request.pathVariable("id")))
 //                .map { it -> it.t2.copy(genome = it.t1) }
-//                .flatMap { it -> repository.save(it) }
+//                .flatMap { it -> humans.save(it) }
 //                .flatMap { noContent().build() }
 
     private fun updateHuman(m: Mono<Human>): Mono<Human> {
-        return m.flatMap { repository.save(it) }
+        return m.flatMap { humans.save(it) }
     }
 
-    private fun returnHumanWithUpdatedGenome(it: Mono<Tuple2<MutableList<DNA>, Human>>): Mono<Human> {
-        return it.map { it -> it.t2.sufferMutation(it.t1) }
+    private fun returnHumanWithUpdatedGenome(tuple: Mono<Tuple2<MutableList<DNA>, Human>>): Mono<Human> {
+        //E se no lugar de tuple for it?
+        return tuple.map { it -> it.t2.sufferMutation(it.t1) }
     }
 
     private fun findHumanAndZipWith(m: Mono<MutableList<DNA>>, request: ServerRequest): Mono<Tuple2<MutableList<DNA>, Human>> =
-            m.zipWith(repository.findById(request.pathVariable("id")))
+            m.zipWith(humans.findById(request.pathVariable("id")))
 
     private fun makeAList(flux: Flux<DNA>): Mono<MutableList<DNA>> {
         return flux.map { it -> mutableListOf(it) }

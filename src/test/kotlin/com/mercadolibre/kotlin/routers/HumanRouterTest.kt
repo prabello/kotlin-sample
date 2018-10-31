@@ -1,7 +1,7 @@
 package com.mercadolibre.kotlin.routers
 
 import com.mercadolibre.kotlin.models.Human
-import com.mercadolibre.kotlin.repositories.HumanRepository
+import com.mercadolibre.kotlin.repositories.Humans
 import com.mercadolibre.kotlin.helpers.simpleHuman
 import com.mercadolibre.kotlin.models.DNA
 import org.junit.Test
@@ -28,7 +28,7 @@ internal class InsertHandlerTesst {
     private lateinit var makeA: WebTestClient
 
     @MockBean
-    private lateinit var repository: HumanRepository
+    private lateinit var repository: Humans
 
     @Test
     fun `Ensure a POST with a valid JSON will save it`() {
