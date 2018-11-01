@@ -22,7 +22,7 @@ import reactor.core.publisher.toMono
 @ExtendWith(SpringExtension::class)
 @WebFluxTest
 @Import(HumanRouter::class)
-internal class InsertHandlerTesst {
+internal class HumanRouterTest {
 
     @Autowired
     private lateinit var makeA: WebTestClient
