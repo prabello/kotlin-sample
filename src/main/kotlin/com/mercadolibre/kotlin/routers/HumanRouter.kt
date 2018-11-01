@@ -3,6 +3,7 @@ package com.mercadolibre.kotlin.routers
 import com.mercadolibre.kotlin.handlers.human.InsertHandler
 import com.mercadolibre.kotlin.handlers.human.SearchHandler
 import com.mercadolibre.kotlin.handlers.human.UpdateHandler
+import com.mercadolibre.kotlin.models.Powers
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType

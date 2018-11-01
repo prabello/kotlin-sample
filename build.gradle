@@ -58,4 +58,5 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.1.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-migrationsupport:5.1.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    testImplementation 'org.reflections:reflections:0.9.11'
 }

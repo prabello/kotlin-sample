@@ -4,7 +4,6 @@ import com.mercadolibre.kotlin.helpers.returnOkWithHuman
 import com.mercadolibre.kotlin.models.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.stereotype.Controller
 import org.springframework.web.reactive.function.server.ServerRequest
