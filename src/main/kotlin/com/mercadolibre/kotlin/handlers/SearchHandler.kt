@@ -1,7 +1,7 @@
-package com.mercadolibre.kotlin.handlers.human
+package com.mercadolibre.kotlin.handlers
 
 import com.mercadolibre.kotlin.helpers.returnOkWithHuman
-import com.mercadolibre.kotlin.models.Human
+import com.mercadolibre.kotlin.domains.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus.*

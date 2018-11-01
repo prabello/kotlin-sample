@@ -1,7 +1,7 @@
 package com.mercadolibre.kotlin.helpers
 
 import com.mercadolibre.kotlin.exceptions.LockedException
-import com.mercadolibre.kotlin.models.Human
+import com.mercadolibre.kotlin.domains.Human
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -23,8 +23,8 @@ fun badRequest(e: Throwable, unit: () -> Unit): Mono<ServerResponse> {
     return badRequest().build()
 }
 
-fun returnResponseForException(it: Throwable?): Mono<out ServerResponse>? {
-    return when (it) {
+fun returnResponseForException(exception: Throwable?): Mono<ServerResponse>? {
+    return when (exception) {
         is IllegalArgumentException -> badRequest().build()
         is ClassCastException -> unprocessableEntity().build()
         is LockedException -> status(HttpStatus.TOO_MANY_REQUESTS).build()
@@ -32,8 +32,14 @@ fun returnResponseForException(it: Throwable?): Mono<out ServerResponse>? {
     }
 }
 
+fun sampleInline(it: Throwable?) = when (it) {
+    is IllegalArgumentException -> badRequest().build()
+    is ClassCastException -> unprocessableEntity().build()
+    is LockedException -> status(HttpStatus.TOO_MANY_REQUESTS).build()
+    else -> status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+}
+
+
 fun returnOkWithHuman(it: Human) = ok().body(it.toMono(), Human::class.java)
 
-fun returnNoContent(): Mono<ServerResponse> {
-    return noContent().build()
-}
+fun returnNoContent() = noContent().build()

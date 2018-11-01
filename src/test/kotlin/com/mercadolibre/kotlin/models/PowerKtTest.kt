@@ -1,11 +1,10 @@
 package com.mercadolibre.kotlin.models
 
+import com.mercadolibre.kotlin.domains.findPowers
 import com.mercadolibre.kotlin.helpers.humanGenome
 import com.mercadolibre.kotlin.helpers.mutantGenome
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class PowerKtTest {
 

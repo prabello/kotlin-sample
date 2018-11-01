@@ -1,5 +1,7 @@
 package com.mercadolibre.kotlin.models
 
+import com.mercadolibre.kotlin.domains.DNA
+import com.mercadolibre.kotlin.domains.toDna
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

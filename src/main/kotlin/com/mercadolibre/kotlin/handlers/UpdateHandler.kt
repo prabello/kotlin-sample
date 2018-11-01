@@ -1,8 +1,8 @@
-package com.mercadolibre.kotlin.handlers.human
+package com.mercadolibre.kotlin.handlers
 
 import com.mercadolibre.kotlin.helpers.returnNoContent
-import com.mercadolibre.kotlin.models.DNA
-import com.mercadolibre.kotlin.models.Human
+import com.mercadolibre.kotlin.domains.DNA
+import com.mercadolibre.kotlin.domains.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import org.springframework.stereotype.Controller
 import org.springframework.web.reactive.function.server.ServerRequest

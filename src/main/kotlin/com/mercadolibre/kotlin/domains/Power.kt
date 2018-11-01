@@ -1,4 +1,4 @@
-package com.mercadolibre.kotlin.models
+package com.mercadolibre.kotlin.domains
 
 enum class La(val battlePoints: Int, val dnaIdentifier: String) {
     SUPER_STRENGHT(300, "MONSTRO"),
@@ -14,8 +14,8 @@ interface Power{
 
 class SuperStrenght(override val battlePoints: Long = 300, override val dnaIdentifier: String = "MONSTRO") : Power
 class Fly(override val battlePoints: Long = 200, override val dnaIdentifier: String = "BIRD") : Power
-class LaserBeans(override val battlePoints: Long = 250, override val dnaIdentifier: String = "PEWPEW") :Power
-class PoopAttack(override val battlePoints: Long = 9001, override val dnaIdentifier: String = "HU3") :Power
+class LaserBeans(override val battlePoints: Long = 250, override val dnaIdentifier: String = "PEWPEW") : Power
+class PoopAttack(override val battlePoints: Long = 9001, override val dnaIdentifier: String = "HU3") : Power
 
 fun findPowers(genome: List<DNA>): List<Power>? {
     val powerFullList = Powers.getAllPowers()

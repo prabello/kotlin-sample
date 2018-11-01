@@ -1,8 +1,8 @@
-package com.mercadolibre.kotlin.handlers.human
+package com.mercadolibre.kotlin.handlers
 
 import com.mercadolibre.kotlin.helpers.badRequest
 import com.mercadolibre.kotlin.helpers.returnCreatedHumanResponse
-import com.mercadolibre.kotlin.models.Human
+import com.mercadolibre.kotlin.domains.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller

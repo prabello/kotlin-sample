@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.mercadolibre.kotlin.configuration
+package com.mercadolibre.kotlin.configurations
 
 //import com.mercadolibre.kotlin.routers.humanRoutes
 

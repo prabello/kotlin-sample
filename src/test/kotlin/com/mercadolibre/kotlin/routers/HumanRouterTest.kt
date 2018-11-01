@@ -1,9 +1,9 @@
 package com.mercadolibre.kotlin.routers
 
-import com.mercadolibre.kotlin.models.Human
+import com.mercadolibre.kotlin.domains.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import com.mercadolibre.kotlin.helpers.simpleHuman
-import com.mercadolibre.kotlin.models.DNA
+import com.mercadolibre.kotlin.domains.DNA
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
@@ -84,7 +84,7 @@ internal class InsertHandlerTesst {
     @Test
     fun `Ensure a PATCH with a mutant ID will return a MONSTER`(){
         given(repository.findById("sampleId")).willReturn(simpleHuman().toMono())
-        val monsterDNA = fromObject(listOf(DNA("MONSTRO"),DNA("FRANGO"),DNA("BIRRL")))
+        val monsterDNA = fromObject(listOf(DNA("MONSTRO"), DNA("FRANGO"), DNA("BIRRL")))
         makeA.patch().uri("/humans/sampleId").accept(APPLICATION_JSON)
                 .body(monsterDNA)
                 .exchange().expectStatus().isNoContent

@@ -1,4 +1,4 @@
-package com.mercadolibre.kotlin.models
+package com.mercadolibre.kotlin.domains
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
