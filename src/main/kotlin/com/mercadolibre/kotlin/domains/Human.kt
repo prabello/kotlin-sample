@@ -9,8 +9,10 @@ data class Human(val name: String, val genome: List<DNA>, val birth: LocalDate,
                  @Id val id: String? = null) {
 
     val powers: List<Power>? = findPowersFor(genome)
-    val powerLevel by lazy {
-        powers?.map { it.battlePoints }?.fold(0L) { acc, i -> acc+i }?.toLong() ?: 0
+    val powerLevel: Long by lazy {
+        powers?.map {power ->
+            power.battlePoints
+        }?.fold(0L) { acc, i -> acc+i }?.toLong() ?: 0
     }
     val mutant: Boolean
         get() = powerLevel > 0
@@ -21,6 +23,7 @@ data class Human(val name: String, val genome: List<DNA>, val birth: LocalDate,
 }
 
 private fun findPowersFor(genome: List<DNA>): List<Power>? {
+    val human = Human("ooksdoas", listOf("ijdasi".toDna()), LocalDate.now())
     return genome.mapNotNull { dna -> dna.matchWithPower(Powers.getAllPowers()) }.ifEmpty { null }
 }
 

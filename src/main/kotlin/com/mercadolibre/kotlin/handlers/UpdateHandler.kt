@@ -7,6 +7,7 @@ import com.mercadolibre.kotlin.repositories.Humans
 import org.springframework.stereotype.Controller
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.noContent
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.util.function.Tuple2
@@ -14,14 +15,15 @@ import reactor.util.function.Tuple2
 @Controller
 class UpdateHandler(val humans: Humans) {
 
-    fun update(request: ServerRequest): Mono<ServerResponse> = request.bodyToFlux(DNA::class.java)
+    fun update(request: ServerRequest): Mono<ServerResponse> =
+            request.bodyToFlux(DNA::class.java)
             .let { makeAList(it) }
             .let { findHumanAndZipWith(it, request) }
             .let { returnHumanWithUpdatedGenome(it) }
             .let { updateHuman(it) }
             .let { returnNoContent() }
 
-//        return request.bodyToFlux(DNA::class.java)
+//        request.bodyToFlux(DNA::class.java)
 //                .map { it -> mutableListOf(it) }
 //                .reduce { initial: MutableList<DNA>, next: MutableList<DNA> ->
 //                    initial.addAll(next)

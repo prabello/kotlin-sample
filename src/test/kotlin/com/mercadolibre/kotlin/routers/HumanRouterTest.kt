@@ -4,6 +4,7 @@ import com.mercadolibre.kotlin.domains.Human
 import com.mercadolibre.kotlin.repositories.Humans
 import com.mercadolibre.kotlin.helpers.simpleHuman
 import com.mercadolibre.kotlin.domains.DNA
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
@@ -22,6 +23,7 @@ import reactor.core.publisher.toMono
 @ExtendWith(SpringExtension::class)
 @WebFluxTest
 @Import(HumanRouter::class)
+@DisplayName("Human API")
 internal class HumanRouterTest {
 
     @Autowired
@@ -31,7 +33,7 @@ internal class HumanRouterTest {
     private lateinit var repository: Humans
 
     @Test
-    fun `Ensure a POST with a valid JSON will save it`() {
+    fun `should save when a valid JSON is POSTed`() {
         given(repository.save(simpleHuman())).willReturn(simpleHuman().toMono())
         //When
         makeA.post().uri("/humans").contentType(APPLICATION_JSON)
@@ -43,14 +45,14 @@ internal class HumanRouterTest {
 
     }
     @Test
-    fun `Ensure a POST with a invalid json returns bad request`() {
+    fun `should return bad request when a invalid JSON is POSTed`() {
         makeA.post().uri("/humans").contentType(APPLICATION_JSON)
                 .body(fromObject("{invalid}")).exchange()
                 .expectStatus().isBadRequest
     }
 
     @Test
-    fun `Ensure a GET with invalid id return a NOT FOUND`(){
+    fun `should return NOT FOUND when a unknow id is GETed`(){
         //Given
 
         //When
@@ -61,7 +63,7 @@ internal class HumanRouterTest {
     }
 
     @Test
-    fun `Ensure a GET with a valid ID return a OK with a single human`(){
+    fun `should return OK with a single human when a valid ID is GETed`(){
         given(repository.findById("sampleId")).willReturn(simpleHuman().toMono())
         //When
         makeA.get().uri("/humans/sampleId").accept(APPLICATION_JSON)
@@ -71,7 +73,7 @@ internal class HumanRouterTest {
     }
 
     @Test
-    fun `Ensure a GET will return a OK with  a list of humans`() {
+    fun `should return OK with a list of humans when GETed`() {
         val humans = listOf(simpleHuman(), simpleHuman()).toFlux()
         given(repository.findAll()).willReturn(humans)
         //When
@@ -82,7 +84,7 @@ internal class HumanRouterTest {
     }
 
     @Test
-    fun `Ensure a PATCH with a mutant ID will return a MONSTER`(){
+    fun `should create a monster when a mutant ID is PATCHed into a human`(){
         given(repository.findById("sampleId")).willReturn(simpleHuman().toMono())
         val monsterDNA = fromObject(listOf(DNA("MONSTRO"), DNA("FRANGO"), DNA("BIRRL")))
         makeA.patch().uri("/humans/sampleId").accept(APPLICATION_JSON)
